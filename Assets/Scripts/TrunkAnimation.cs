@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class TrunkAnimation : MonoBehaviour
 {
-    [Tooltip("Объект, вокруг которого будет вращаться крышка")]
     [SerializeField] private Transform _pivotTransform;
 
     [Space()]
-    [Header("Настройки анимации")]
+    [Header("Animation setting")]
     [SerializeField] private float _openAngle = -90f;
     [SerializeField] private float _openDuration = 1.5f;
     [SerializeField] private float _closeDuration = 1f;
     [SerializeField] private AnimationCurve _openCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private AnimationCurve _closeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
 
     void Start()
     {

@@ -383,7 +383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6904434136191705028
 Transform:
   m_ObjectHideFlags: 0
@@ -392,7 +392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9097109094438842045}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -429,31 +429,40 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5723469
-      value: 0.8501377
-      inSlope: 1.4993808
-      outSlope: 1.4993808
+      time: 0.48363233
+      value: 0.9848614
+      inSlope: -0.01696338
+      outSlope: -0.01696338
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5321378
+    - serializedVersion: 3
+      time: 0.79125047
+      value: 0.9166067
+      inSlope: 0.103296354
+      outSlope: 0.103296354
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33693573
+    - serializedVersion: 3
+      time: 0.93093365
+      value: 0.9702034
+      inSlope: 0.34286317
+      outSlope: 0.34286317
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.8665133
-      value: 0.90640515
-      inSlope: 0.33908215
-      outSlope: 0.33908215
+      time: 0.9989969
+      value: 0.9769728
+      inSlope: -0.27000052
+      outSlope: -0.27000052
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.94203264
-      outSlope: 0.94203264
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.5376598
+      inWeight: 1
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
