@@ -17,8 +17,16 @@ public class Item : MonoBehaviour, IPlaceable
     public EItemType Type => _type;
     public Rigidbody Rigidbody => _rigidbody;
 
-    public void Place()
+
+    public void TryPlace()
     {
-        OnPlaced?.Invoke();
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 2);
+        foreach (Collider collider in colliders)
+        {
+            if(collider.TryGetComponent(out Backpack backpack))
+            {
+                backpack.PlaceIn(this);
+            }
+        }
     }
 }

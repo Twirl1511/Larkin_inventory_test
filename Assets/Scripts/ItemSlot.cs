@@ -4,9 +4,10 @@ using UnityEngine;
 public class ItemSlot : MonoBehaviour
 {
     [SerializeField] private EItemType _type;
-    [SerializeField] private float _spapTime = 0.7f;
+    [SerializeField] private float _snapTime = 0.7f;
 
     public bool IsOcupied { get; private set; }
+
     private Item _item;
 
 
@@ -32,33 +33,33 @@ public class ItemSlot : MonoBehaviour
             return false;
 
         item = _item;
-        Release(_item);
+        Release();
 
         return true;
     }
 
-    private void Release(Item item)
+    private void Release()
     {
         IsOcupied = false;
 
-        item.Rigidbody.isKinematic = true;
-        item.Rigidbody.useGravity = false;
-        item.Rigidbody.velocity = Vector3.zero;
-        item.Rigidbody.angularVelocity = Vector3.zero;
+        _item.Rigidbody.isKinematic = false;
+        _item.Rigidbody.useGravity = true;
+        _item.Rigidbody.velocity = Vector3.zero;
+        _item.Rigidbody.angularVelocity = Vector3.zero;
 
         _item = null;
     }
 
     private void SetInSlotPosition(Item item)
     {
-        item.Place();
+        item.TryPlace();
 
         item.Rigidbody.isKinematic = true; 
         item.Rigidbody.useGravity = false; 
         item.Rigidbody.velocity = Vector3.zero; 
         item.Rigidbody.angularVelocity = Vector3.zero;
 
-        SnapToSlot(item, _spapTime);
+        SnapToSlot(item, _snapTime);
     }
 
     public void SnapToSlot(Item item, float duration)

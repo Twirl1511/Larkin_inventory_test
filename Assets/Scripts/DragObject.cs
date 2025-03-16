@@ -19,7 +19,6 @@ public class DragObject : MonoBehaviour
     private bool _isHoldingObject = false;
     private Vector3 _previousPosition;
     private Vector3 _velocity;
-    private IPlaceable _placeable;
 
 
     private void Start()
@@ -64,28 +63,10 @@ public class DragObject : MonoBehaviour
                 _isHoldingObject = true;
                 Cursor.visible = false; 
 
-                if(TryGetComponent(out IPlaceable placeable))
-                {
-                    if(_placeable != null)
-                        _placeable.OnPlaced -= PlaceHandle;
-
-                    _placeable = placeable;
-                    _placeable.OnPlaced += PlaceHandle;
-                }
-
                 OutlineController outlineController = _heldObject.GetComponent<OutlineController>();
                 outlineController.SetAlwaysShow(true);
             }
         }
-    }
-
-    private void PlaceHandle()
-    {
-        if(_placeable != null)
-            _placeable.OnPlaced -= PlaceHandle;
-
-        _placeable = null;
-        ReleaseObject(false);
     }
 
     private void RotateObject()
@@ -162,13 +143,11 @@ public class DragObject : MonoBehaviour
         if(isWithImpulse)
             _heldObject.AddForce(_velocity * _throwForceMultiplier, ForceMode.Impulse);
 
+        if (_heldObject.TryGetComponent(out IPlaceable placeable))
+            placeable.TryPlace();
+
         _heldObject = null;
         _isHoldingObject = false;
         Cursor.visible = true;
-
-        if (_placeable != null)
-            _placeable.OnPlaced -= PlaceHandle;
-
-        _placeable = null;
     }
 }

@@ -4,5 +4,5 @@ public interface IPlaceable
 {
     public event Action OnPlaced;
 
-    public void Place();
+    public void TryPlace();
 }
