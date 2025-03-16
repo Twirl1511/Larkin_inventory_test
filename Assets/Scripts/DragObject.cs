@@ -51,11 +51,11 @@ public class DragObject : MonoBehaviour
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, _pickupDistance, _dragableMask))
         {
-            Rigidbody rb = hit.transform.root.GetComponent<Rigidbody>();
+            Rigidbody rigidbody = hit.transform.root.GetComponent<Rigidbody>();
             
-            if (rb != null)
+            if (rigidbody != null)
             {
-                _heldObject = rb;
+                _heldObject = rigidbody;
                 _heldObject.useGravity = false;
                 _heldObject.drag = _heldDrag;
 
@@ -72,9 +72,7 @@ public class DragObject : MonoBehaviour
     private void RotateObject()
     {
         if (_heldObject == null)
-        {
             return;
-        }
 
         float rotationY = 0f;
 
@@ -94,44 +92,35 @@ public class DragObject : MonoBehaviour
     private void MoveObjectWithMouse()
     {
         if (_heldObject == null)
-        {
             return;
-        }
 
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundMask))
-        {
-            Vector3 targetPosition = hit.point;
-            targetPosition.y = _fixedHeight;
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundMask))
+            return;
 
-            _velocity = (targetPosition - _previousPosition) / Time.deltaTime;
+        Vector3 targetPosition = hit.point;
+        targetPosition.y = _fixedHeight;
 
-            float distanceFromCamera = Vector3.Distance(_mainCamera.transform.position, _heldObject.position);
+        _velocity = (targetPosition - _previousPosition) / Time.deltaTime;
 
-            if (distanceFromCamera < _minDistanceFromCamera)
-            {
-                targetPosition = _previousPosition;
-            }
+        float distanceFromCamera = Vector3.Distance(_mainCamera.transform.position, _heldObject.position);
 
-            _previousPosition = _heldObject.position;
-            Vector3 moveDirection = (targetPosition - _heldObject.position);
-            _heldObject.velocity = moveDirection * _moveSpeed;
+        if (distanceFromCamera < _minDistanceFromCamera)
+            targetPosition = _previousPosition;
 
+        _previousPosition = _heldObject.position;
+        Vector3 moveDirection = (targetPosition - _heldObject.position);
+        _heldObject.velocity = moveDirection * _moveSpeed;
 
-            if (_virtualHand != null)
-            {
-                _virtualHand.position = _heldObject.position;
-            }
-        }
+        if (_virtualHand != null)
+            _virtualHand.position = _heldObject.position;
     }
 
     private void ReleaseObject(bool isWithImpulse)
     {
         if (_heldObject == null)
-        {
             return;
-        }
 
         OutlineController outlineController = _heldObject.GetComponent<OutlineController>();
         outlineController.SetAlwaysShow(false);
