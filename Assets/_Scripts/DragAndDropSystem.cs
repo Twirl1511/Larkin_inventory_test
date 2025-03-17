@@ -70,7 +70,8 @@ public class DragAndDropSystem : MonoBehaviour
         _isHoldingObject = true;
         Cursor.visible = false;
 
-        if(_heldObject.TryGetComponent(out OutlineController outlineController))
+        // highlight the object when picked up
+        if (_heldObject.TryGetComponent(out OutlineController outlineController))
             outlineController.SetAlwaysShow(true);
     }
 
@@ -84,18 +85,27 @@ public class DragAndDropSystem : MonoBehaviour
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _groundMask))
             return;
 
+        // getting position over the floor
         Vector3 targetPosition = hit.point;
         targetPosition.y = _fixedHeight;
 
-        /// using velocity to move rigidbody object
-        _velocity = (targetPosition - _previousPosition) / Time.deltaTime;
-        _previousPosition = _heldObject.position;
-        Vector3 moveDirection = (targetPosition - _heldObject.position);
-        _heldObject.velocity = moveDirection * _moveSpeed;
+        MoveWithVelocity();
+        RestrictVelocity();
 
-        /// restricting velocity to prevent unexpected behaviour
-        if (_heldObject.velocity.magnitude > _moveSpeed)
-            _heldObject.velocity = _heldObject.velocity.normalized * _moveSpeed;
+
+        return;
+        void MoveWithVelocity()
+        {
+            _velocity = (targetPosition - _previousPosition) / Time.deltaTime;
+            _previousPosition = _heldObject.position;
+            Vector3 moveDirection = (targetPosition - _heldObject.position);
+            _heldObject.velocity = moveDirection * _moveSpeed;
+        }
+        void RestrictVelocity()
+        {
+            if (_heldObject.velocity.magnitude > _moveSpeed)
+                _heldObject.velocity = _heldObject.velocity.normalized * _moveSpeed;
+        }
     }
 
     private void ReleaseObject(bool isWithImpulse = true)
@@ -103,23 +113,37 @@ public class DragAndDropSystem : MonoBehaviour
         if (_heldObject == null)
             return;
 
-        if (_heldObject.TryGetComponent(out OutlineController outlineController))
-        {
-            outlineController.SetAlwaysShow(false);
-            outlineController.Hide();
-        }
+        TryRemoveHighlight();
 
         _heldObject.useGravity = true;
         _heldObject.drag = _releasedDrag;
 
-        if(isWithImpulse)
-            _heldObject.AddForce(_velocity * _throwForceMultiplier, ForceMode.Impulse);
-
-        if (_heldObject.TryGetComponent(out IPlaceable placeable))
-            placeable.TryPlace();
+        AddImpusleAfterReleasing();
+        TryPlaceInSlot();
 
         _heldObject = null;
         _isHoldingObject = false;
         Cursor.visible = true;
+
+
+        return;
+        void AddImpusleAfterReleasing()
+        {
+            if (isWithImpulse)
+                _heldObject.AddForce(_velocity * _throwForceMultiplier, ForceMode.Impulse);
+        }
+        void TryPlaceInSlot()
+        {
+            if (_heldObject.TryGetComponent(out IPlaceable placeable))
+                placeable.TryPlace();
+        }
+        void TryRemoveHighlight()
+        {
+            if (_heldObject.TryGetComponent(out OutlineController outlineController))
+            {
+                outlineController.SetAlwaysShow(false);
+                outlineController.Hide();
+            }
+        }
     }
 }

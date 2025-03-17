@@ -13,21 +13,6 @@ public class OutlineController : MonoBehaviour
         Hide();
     }
 
-    public void SetAlwaysShow(bool value)
-    {
-        _isAlwaysShow = value;
-    }
-
-    public void Activate()
-    {
-        _isActive = true;
-    }
-
-    public void Deactivate()
-    {
-        _isActive = false;
-    }
-
     private void OnMouseEnter()
     {
         if (!_isActive)
@@ -45,6 +30,11 @@ public class OutlineController : MonoBehaviour
             return;
 
         Hide();
+    }
+
+    public void SetAlwaysShow(bool value)
+    {
+        _isAlwaysShow = value;
     }
 
     public void Show()

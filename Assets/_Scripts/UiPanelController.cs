@@ -8,23 +8,12 @@ public class UiPanelController : MonoBehaviour
     [SerializeField] private float _closeTime = 0.5f;
 
     private Tween _currentTween;
-    private Camera _camera;
 
 
     private void Start()
     {
         _canvas.gameObject.SetActive(false);
         _canvas.transform.localScale = Vector3.zero;
-        _camera = Camera.main;
-    }
-
-    private void LateUpdate()
-    {
-        if (!_canvas.gameObject.activeSelf)
-            return;
-
-        if (_camera != null)
-            _canvas.transform.LookAt(_camera.transform);
     }
 
     private void OnMouseOver()
