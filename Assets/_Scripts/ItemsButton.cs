@@ -8,7 +8,6 @@ public class ItemsButton : MonoBehaviour, IPointerEnterHandler, IPointerUpHandle
     [SerializeField] private Button _button;
     [SerializeField] private ItemSlot _itemSlot;
     [SerializeField] private Image _image;
-    [SerializeField] private string _name;
 
     public ItemSlot ItemSlot => _itemSlot;
     

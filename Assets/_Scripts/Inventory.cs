@@ -10,25 +10,25 @@ public class Inventory : MonoBehaviour
     public UnityEvent OnInventoryChanged;
 
 
-    public async void PlaceIn(Item item)
+    public void PlaceIn(Item item)
     {
         foreach (var slot in _slots)
         {
             if (!slot.TryPlaceInSlot(item))
                 continue;
 
-            await InventoryApi.Instance.SendItemStatusAsync(item.Id, "Added");
+            InventoryApi.Instance.SendItemStatus(item.Id, "Added");
             OnInventoryChanged?.Invoke();
             break;
         }
     }
 
-    public async Task TryTakeItemOut(ItemSlot itemSlot)
+    public void TryTakeItemOut(ItemSlot itemSlot)
     {
         if (!itemSlot.TryGetItemFromSlot(out Item item))
             return;
 
-        await InventoryApi.Instance.SendItemStatusAsync(item.Id, "Removed");
+        InventoryApi.Instance.SendItemStatus(item.Id, "Removed");
         OnInventoryChanged?.Invoke();
         return;
     }

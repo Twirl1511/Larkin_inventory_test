@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine.Networking;
 
 public class InventoryApi : MonoBehaviour
@@ -8,8 +8,7 @@ public class InventoryApi : MonoBehaviour
     public static InventoryApi Instance { get; private set; }
 
     private const string API_URL = "https://wadahub.manerai.com/api/inventory/status";
-    private const string AUTH_TOKEN = "Bearer kPERnYcWAY46xaSy8CEzanosAgsWM84Nx7SKM4QBSqPq6c7StWfGxzhxPfDh8MaP";
-
+    private const string AUTH_TOKEN = "kPERnYcWAY46xaSy8CEzanosAgsWM84Nx7SKM4QBSqPq6c7StWfGxzhxPfDh8MaP";
 
     private void Awake()
     {
@@ -19,12 +18,12 @@ public class InventoryApi : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public async Task SendItemStatusAsync(string itemId, string eventType)
+    public void SendItemStatus(string itemId, string eventType)
     {
-        await SendRequest(itemId, eventType);
+        StartCoroutine(SendRequest(itemId, eventType));
     }
 
-    private async Task SendRequest(string itemId, string eventType)
+    private IEnumerator SendRequest(string itemId, string eventType)
     {
         string jsonData = $"{{\"item_id\":\"{itemId}\",\"event\":\"{eventType}\"}}";
         byte[] postData = Encoding.UTF8.GetBytes(jsonData);
@@ -36,10 +35,7 @@ public class InventoryApi : MonoBehaviour
             request.SetRequestHeader("Content-Type", "application/json");
             request.SetRequestHeader("Authorization", AUTH_TOKEN);
 
-            var operation = request.SendWebRequest();
-
-            while (!operation.isDone)
-                await Task.Yield();
+            yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
                 Debug.Log($"[Success] Item {itemId} event {eventType} sent.");

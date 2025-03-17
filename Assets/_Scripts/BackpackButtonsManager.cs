@@ -24,9 +24,9 @@ public class BackpackButtonsManager : MonoBehaviour
             item.OnClicked -= ClickHandler;
     }
 
-    private async void ClickHandler(ItemSlot itemSlot)
+    private void ClickHandler(ItemSlot itemSlot)
     {
-        await _inventory.TryTakeItemOut(itemSlot);
+        _inventory.TryTakeItemOut(itemSlot);
     }
 
     private void UpdateButtonsHandle()
