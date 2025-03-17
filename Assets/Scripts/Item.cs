@@ -25,10 +25,7 @@ public class Item : MonoBehaviour, IPlaceable
         foreach (Collider collider in colliders)
         {
             if(collider.TryGetComponent(out Inventory backpack))
-            {
                 backpack.PlaceIn(this);
-                Debug.Log("backpack.PlaceIn(this);");
-            }
         }
     }
 }

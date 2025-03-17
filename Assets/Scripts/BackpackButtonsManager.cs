@@ -10,7 +10,7 @@ public class BackpackButtonsManager : MonoBehaviour
     private void Start()
     {
         UpdateButtonsHandle();
-        _inventory.OnInventoryChanged += UpdateButtonsHandle;
+        _inventory.OnInventoryChanged.AddListener(UpdateButtonsHandle);
 
         foreach (var item in _itemButtons)
             item.OnClicked += ClickHandler;
@@ -18,17 +18,15 @@ public class BackpackButtonsManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        _inventory.OnInventoryChanged -= UpdateButtonsHandle;
+        _inventory.OnInventoryChanged.RemoveListener(UpdateButtonsHandle);
 
         foreach (var item in _itemButtons)
             item.OnClicked -= ClickHandler;
     }
 
-    private void ClickHandler(ItemSlot itemSlot)
+    private async void ClickHandler(ItemSlot itemSlot)
     {
-        if (!_inventory.TryTakeOutItem(itemSlot, out Item item))
-            return;
-
+        await _inventory.TryTakeItemOut(itemSlot);
     }
 
     private void UpdateButtonsHandle()

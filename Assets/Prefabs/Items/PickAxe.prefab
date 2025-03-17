@@ -190,9 +190,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2356312509754112594}
   _type: 0
-  _id: 
-  _name: 
-  _weight: 0
+  _id: Pick_axe
+  _name: Pick axe
+  _weight: 3
 --- !u!114 &7738910683405850033
 MonoBehaviour:
   m_ObjectHideFlags: 0

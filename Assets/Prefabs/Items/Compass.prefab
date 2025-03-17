@@ -169,9 +169,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 7935332480773079790}
   _type: 1
-  _id: 
-  _name: 
-  _weight: 0
+  _id: Cpmpass
+  _name: Cpmpass
+  _weight: 0.5
 --- !u!114 &-4243715855831217442
 MonoBehaviour:
   m_ObjectHideFlags: 0

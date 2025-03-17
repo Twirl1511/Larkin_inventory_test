@@ -1,7 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System;
 
 public class ItemsButton : MonoBehaviour, IPointerEnterHandler, IPointerUpHandler, IPointerDownHandler, IPointerExitHandler
 {
@@ -20,15 +20,13 @@ public class ItemsButton : MonoBehaviour, IPointerEnterHandler, IPointerUpHandle
     private void Update()
     {
         if (_isPointerDown && Input.GetMouseButtonUp(0))
+        {
+            OnPointerDown(new PointerEventData(EventSystem.current));
             OnPointerUp(new PointerEventData(EventSystem.current));
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
-    {
-        ExecuteEvents.Execute(gameObject, eventData, ExecuteEvents.pointerDownHandler);
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
     {
         _isPointerDown = true;
     }
@@ -37,6 +35,8 @@ public class ItemsButton : MonoBehaviour, IPointerEnterHandler, IPointerUpHandle
     {
         _isPointerDown = false;
     }
+
+    public void OnPointerDown(PointerEventData eventData) { }
 
     public void OnPointerUp(PointerEventData eventData)
     {

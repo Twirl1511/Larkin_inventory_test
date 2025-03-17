@@ -190,9 +190,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 2222740617907097216}
   _type: 2
-  _id: 
-  _name: 
-  _weight: 0
+  _id: Handled_showel
+  _name: Handled showel
+  _weight: 1.5
 --- !u!114 &-174582640894182897
 MonoBehaviour:
   m_ObjectHideFlags: 0

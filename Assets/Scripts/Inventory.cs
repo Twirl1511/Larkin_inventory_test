@@ -1,29 +1,35 @@
-using System;
 using UnityEngine;
+using UnityEngine.Events;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private List<ItemSlot> _slots;
 
-    public event Action OnInventoryChanged;
+    public UnityEvent OnInventoryChanged;
 
 
-    public void PlaceIn(Item item)
+    public async void PlaceIn(Item item)
     {
         foreach (var slot in _slots)
         {
-            if(slot.TryPlaceInSlot(item))
-                OnInventoryChanged?.Invoke();
+            if (!slot.TryPlaceInSlot(item))
+                continue;
+
+            await InventoryApi.Instance.SendItemStatusAsync(item.Id, "Added");
+            OnInventoryChanged?.Invoke();
+            break;
         }
     }
 
-    public bool TryTakeOutItem(ItemSlot itemSlot, out Item item)
+    public async Task TryTakeItemOut(ItemSlot itemSlot)
     {
-        if (!itemSlot.TryGetItemFromSlot(out item))
-            return false;
+        if (!itemSlot.TryGetItemFromSlot(out Item item))
+            return;
 
+        await InventoryApi.Instance.SendItemStatusAsync(item.Id, "Removed");
         OnInventoryChanged?.Invoke();
-        return true;
+        return;
     }
 }
