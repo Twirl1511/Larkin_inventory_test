@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5218124956185254333}
   - component: {fileID: 2364120412642767038}
   - component: {fileID: 4984526038542154028}
-  - component: {fileID: 3079638830361762589}
   m_Layer: 5
   m_Name: Inventory UI
   m_TagString: Untagged
@@ -106,18 +105,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &3079638830361762589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2406073566343453025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a55fe1bcbb4e69d4bb31c39bf6debb87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5272659614255434532
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,6 +358,7 @@ GameObject:
   - component: {fileID: 3038437119919002146}
   - component: {fileID: 2670322633446045407}
   - component: {fileID: 2904983619320645912}
+  - component: {fileID: 7237844946699559707}
   m_Layer: 0
   m_Name: Backpack
   m_TagString: Untagged
@@ -484,6 +472,20 @@ MonoBehaviour:
   - {fileID: 8169178563754152686}
   - {fileID: 1016281166406331079}
   - {fileID: 2039228013385818199}
+--- !u!114 &7237844946699559707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8282371528029898436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df98e78fb1b276840b208d04f1d52739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 6175245239935443926}
+  _openTime: 1
 --- !u!1001 &3497962578932664248
 PrefabInstance:
   m_ObjectHideFlags: 0
