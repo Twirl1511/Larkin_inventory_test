@@ -29,7 +29,6 @@ public class BackpackButtonsManager : MonoBehaviour
         if (!_inventory.TryTakeOutItem(itemSlot, out Item item))
             return;
 
-        DragAndDropSystem.Instance.PickUpObject(item);
     }
 
     private void UpdateButtonsHandle()

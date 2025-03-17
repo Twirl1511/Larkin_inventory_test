@@ -49,17 +49,22 @@ public class DragAndDropSystem : MonoBehaviour
             MoveObjectWithMouse();
 
             if (Input.GetMouseButtonUp(0))
-            {
                 ReleaseObject();
-            }
         }
     }
 
-    public void PickUpObject(Item item)
+    private void TryPickUpObject()
     {
-        ReleaseObject(false);
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, _pickupDistance, _dragableMask))
+            return;
 
-        _heldObject = item.Rigidbody;
+        Rigidbody rigidbody = hit.transform.root.GetComponent<Rigidbody>();
+
+        if (rigidbody == null)
+            return;
+
+        _heldObject = rigidbody;
         _heldObject.useGravity = false;
         _heldObject.drag = _heldDrag;
 
@@ -69,30 +74,6 @@ public class DragAndDropSystem : MonoBehaviour
 
         OutlineController outlineController = _heldObject.GetComponent<OutlineController>();
         outlineController.SetAlwaysShow(true);
-        Debug.LogWarning($"PickUpObject {item.Type}");
-    }
-
-    private void TryPickUpObject()
-    {
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, _pickupDistance, _dragableMask))
-        {
-            Rigidbody rigidbody = hit.transform.root.GetComponent<Rigidbody>();
-            
-            if (rigidbody != null)
-            {
-                _heldObject = rigidbody;
-                _heldObject.useGravity = false;
-                _heldObject.drag = _heldDrag;
-
-                _previousPosition = _heldObject.position; 
-                _isHoldingObject = true;
-                Cursor.visible = false; 
-
-                OutlineController outlineController = _heldObject.GetComponent<OutlineController>();
-                outlineController.SetAlwaysShow(true);
-            }
-        }
     }
 
     private void RotateObject()
@@ -103,13 +84,9 @@ public class DragAndDropSystem : MonoBehaviour
         float rotationY = 0f;
 
         if (Input.GetKey(KeyCode.Q))
-        {
             rotationY = -_rotationSpeed * Time.deltaTime;
-        }
         else if (Input.GetKey(KeyCode.E))
-        {
             rotationY = _rotationSpeed * Time.deltaTime;
-        }
 
         Quaternion yRotation = Quaternion.Euler(0, rotationY, 0);
         _heldObject.transform.rotation = yRotation * _heldObject.transform.rotation;

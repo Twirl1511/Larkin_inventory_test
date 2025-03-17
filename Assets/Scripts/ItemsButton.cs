@@ -46,7 +46,6 @@ public class ItemsButton : MonoBehaviour, IPointerEnterHandler, IPointerUpHandle
             return;
 
         OnClicked.Invoke(_itemSlot);
-        Debug.Log(2222);
     }
 
     public void UpdateSlot(bool isOcupied)
