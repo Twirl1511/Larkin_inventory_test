@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class DragObject : MonoBehaviour
+public class DragAndDropSystem : MonoBehaviour
 {
+    public static DragAndDropSystem Instance { get; private set; }
+
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private LayerMask _dragableMask;
-    [SerializeField] private Transform _virtualHand;
     [SerializeField] private float _pickupDistance = 5f;
     [SerializeField] private float _moveSpeed = 20f;
     [SerializeField] private float _heldDrag = 10f;
@@ -21,6 +22,14 @@ public class DragObject : MonoBehaviour
     private Vector3 _velocity;
 
 
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     private void Start()
     {
         _mainCamera = Camera.main;
@@ -31,7 +40,7 @@ public class DragObject : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            TryPickupObject();
+            TryPickUpObject();
         }
 
         if (_isHoldingObject)
@@ -41,12 +50,29 @@ public class DragObject : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0))
             {
-                ReleaseObject(true);
+                ReleaseObject();
             }
         }
     }
 
-    private void TryPickupObject()
+    public void PickUpObject(Item item)
+    {
+        ReleaseObject(false);
+
+        _heldObject = item.Rigidbody;
+        _heldObject.useGravity = false;
+        _heldObject.drag = _heldDrag;
+
+        _previousPosition = _heldObject.position;
+        _isHoldingObject = true;
+        Cursor.visible = false;
+
+        OutlineController outlineController = _heldObject.GetComponent<OutlineController>();
+        outlineController.SetAlwaysShow(true);
+        Debug.LogWarning($"PickUpObject {item.Type}");
+    }
+
+    private void TryPickUpObject()
     {
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, _pickupDistance, _dragableMask))
@@ -112,12 +138,9 @@ public class DragObject : MonoBehaviour
         _previousPosition = _heldObject.position;
         Vector3 moveDirection = (targetPosition - _heldObject.position);
         _heldObject.velocity = moveDirection * _moveSpeed;
-
-        if (_virtualHand != null)
-            _virtualHand.position = _heldObject.position;
     }
 
-    private void ReleaseObject(bool isWithImpulse)
+    private void ReleaseObject(bool isWithImpulse = true)
     {
         if (_heldObject == null)
             return;

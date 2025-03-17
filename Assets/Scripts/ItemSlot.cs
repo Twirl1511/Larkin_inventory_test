@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemSlot : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class ItemSlot : MonoBehaviour
     [SerializeField] private float _snapTime = 0.7f;
 
     public bool IsOcupied { get; private set; }
+    public EItemType ItemType => _type;
 
     private Item _item;
 
@@ -42,6 +44,7 @@ public class ItemSlot : MonoBehaviour
     {
         IsOcupied = false;
 
+        _item.transform.parent = null;
         _item.Rigidbody.isKinematic = false;
         _item.Rigidbody.useGravity = true;
         _item.Rigidbody.velocity = Vector3.zero;

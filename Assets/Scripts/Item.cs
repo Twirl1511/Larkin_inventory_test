@@ -10,6 +10,7 @@ public class Item : MonoBehaviour, IPlaceable
     [SerializeField] private float _weight;
 
     public event Action OnPlaced;
+    public event Action OnPickedUp;
 
     public string Id => _id;
     public string Name => _name;
@@ -20,12 +21,13 @@ public class Item : MonoBehaviour, IPlaceable
 
     public void TryPlace()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 2);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 0.2f);
         foreach (Collider collider in colliders)
         {
-            if(collider.TryGetComponent(out Backpack backpack))
+            if(collider.TryGetComponent(out Inventory backpack))
             {
                 backpack.PlaceIn(this);
+                Debug.Log("backpack.PlaceIn(this);");
             }
         }
     }

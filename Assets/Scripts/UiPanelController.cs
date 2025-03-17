@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class InventoryUiController : MonoBehaviour
+public class UiPanelController : MonoBehaviour
 {
     [SerializeField] private Canvas _canvas;
     [SerializeField] private float _openTime = 1f;
