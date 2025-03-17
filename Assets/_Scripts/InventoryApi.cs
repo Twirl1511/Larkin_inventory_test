@@ -8,7 +8,7 @@ public class InventoryApi : MonoBehaviour
     public static InventoryApi Instance { get; private set; }
 
     private const string API_URL = "https://wadahub.manerai.com/api/inventory/status";
-    private const string AUTH_TOKEN = "kPERnYcWAY46xaSy8CEzanosAgsWM84Nx7SKM4QBSqPq6c7StWfGxzhxPfDh8MaP";
+    private const string AUTH_TOKEN = "Bearer kPERnYcWAY46xaSy8CEzanosAgsWM84Nx7SKM4QBSqPq6c7StWfGxzhxPfDh8MaP";
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class InventoryApi : MonoBehaviour
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
-                Debug.Log($"[Success] Item {itemId} event {eventType} sent.");
+                Debug.Log($"[Server Response] {request.downloadHandler.text}");
             else
                 Debug.LogError($"[Error] Failed to send item {itemId}. Error: {request.error}");
         }
