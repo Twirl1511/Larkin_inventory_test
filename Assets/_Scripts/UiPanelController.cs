@@ -8,6 +8,7 @@ public class UiPanelController : MonoBehaviour
     [SerializeField] private float _closeTime = 0.5f;
 
     private Tween _currentTween;
+    private bool _isOpen;
 
 
     private void Start()
@@ -16,16 +17,16 @@ public class UiPanelController : MonoBehaviour
         _canvas.transform.localScale = Vector3.zero;
     }
 
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(0))
-            ToggleMenu(true);
-    }
-
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && _isOpen)
             ToggleMenu(false);
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(0) && !_isOpen)
+            ToggleMenu(true);
     }
 
     private void ToggleMenu(bool isOpening)
@@ -41,6 +42,7 @@ public class UiPanelController : MonoBehaviour
 
     private void Open()
     {
+        _isOpen = true;
         if (!_canvas.gameObject.activeSelf)
             _canvas.gameObject.SetActive(true);
 
@@ -51,12 +53,13 @@ public class UiPanelController : MonoBehaviour
 
     private void Close()
     {
+        _isOpen = false;
         _currentTween = _canvas.transform
-               .DOScale(Vector3.zero, _closeTime)
-               .SetEase(Ease.InBack)
-               .OnComplete(() =>
-               {
-                   _canvas.gameObject.SetActive(false);
-               });
+            .DOScale(Vector3.zero, _closeTime)
+            .SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                _canvas.gameObject.SetActive(false);
+            });
     }
 }
